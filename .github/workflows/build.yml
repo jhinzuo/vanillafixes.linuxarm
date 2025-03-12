@@ -1,0 +1,56 @@
+name: Build VanillaFixes
+
+on:
+  push:
+    branches:
+      - main  # Trigger on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull requests to the main branch
+
+jobs:
+  build:
+    runs-on: windows-latest  # Use a Windows runner
+
+    steps:
+      # Check out the repository and initialize submodules
+      - name: Checkout code and submodules
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive  # Initialize submodules
+
+      # Set up MSVC (Visual Studio) build environment
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+
+      # Install CMake and Ninja
+      - name: Install CMake and Ninja
+        run: |
+          choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+          choco install ninja
+
+      # Create a build directory
+      - name: Create build directory
+        run: mkdir build
+
+      # Configure the project with CMake using Ninja
+      - name: Configure with CMake
+        working-directory: ./build
+        run: cmake -G Ninja ..
+
+      # Build the project with Ninja
+      - name: Build with Ninja
+        working-directory: ./build
+        run: ninja
+
+      # (Optional) Run tests
+      - name: Run tests
+        working-directory: ./build
+        run: ctest --output-on-failure
+
+      # (Optional) Upload build artifacts
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: VanillaFixes-Build
+          path: ./build  # Adjust this path to match your build output directory
