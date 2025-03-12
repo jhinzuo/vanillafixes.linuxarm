@@ -19,9 +19,11 @@ jobs:
         with:
           submodules: recursive  # Initialize submodules
 
-      # Set up MSVC (Visual Studio) build environment
-      - name: Set up MSVC
+      # Set up MSVC (Visual Studio) build environment for x86 (32-bit)
+      - name: Set up MSVC (x86)
         uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x86  # Use the x86 (32-bit) toolchain
 
       # Install CMake and Ninja
       - name: Install CMake and Ninja
