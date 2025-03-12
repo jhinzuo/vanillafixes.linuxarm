@@ -119,6 +119,10 @@ BOOL ScanMemory(PVF_ADDRESSES pResult) {
 
 	// Resolve UseTSC reference
 	pResult->pUseTSC = ResolveXRef(pUseTSCXRef, g_xrefOffsetUseTSC);
+	// Disable TSC usage by setting it to 0 (FALSE)
+	if(pResult->pUseTSC) {
+		*(PDWORD)pResult->pUseTSC = 0;
+	}
 
 	// Search for TimerTicksPerSecond reference
 	PDWORD pTimerTicksPerSecondXRef;

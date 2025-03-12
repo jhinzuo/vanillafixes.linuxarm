@@ -18,7 +18,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	// Dialog boxes should be scaled to system DPI
 	EnableDPIAwareness();
 
-	// Gather CPU info
+	// Gather CPU info (no longer used for TSC check)
 	unsigned int cpuInfo[4] = {0};
 #ifdef _MSC_VER
 	__cpuid(cpuInfo, 0x80000007);
@@ -26,11 +26,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
 	__get_cpuid(0x80000007, &cpuInfo[0], &cpuInfo[1], &cpuInfo[2], &cpuInfo[3]);
 #endif
 
-	// Check if the CPU supports the "Invariant TSC" feature
-	AssertMessageBoxF(cpuInfo[3] & (1 << 8),
-		L"Your processor does not support the \"Invariant TSC\" feature.\r\n\r\n"
-		L"VanillaFixes can only work reliably on modern (2007+) Intel and AMD processors."
-	);
+	// Removed the Invariant TSC check
 
 	LPWSTR pWowDirectory = malloc(MAX_PATH * sizeof(WCHAR));
 	GetModuleFileName(NULL, pWowDirectory, MAX_PATH);
