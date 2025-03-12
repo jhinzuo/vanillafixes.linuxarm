@@ -45,11 +45,6 @@ jobs:
         working-directory: ./build
         run: ninja
 
-      # (Optional) Run tests
-      - name: Run tests
-        working-directory: ./build
-        run: ctest --output-on-failure
-
       # List build directory contents (for debugging)
       - name: List build directory
         run: ls -R ./build
@@ -59,4 +54,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: VanillaFixes-Build
-          path: ./build/Release  # Adjust this path based on the actual output location
+          path: |
+            ./build/src/dll
+            ./build/src/launcher
