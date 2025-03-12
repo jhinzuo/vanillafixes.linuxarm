@@ -45,15 +45,17 @@ jobs:
         working-directory: ./build
         run: ninja
 
-      # List build directory contents (for debugging)
-      - name: List build directory
-        run: ls -R ./build
+      # List build and bin directories (for debugging)
+      - name: List build and bin directories
+        run: |
+          ls -R ./build
+          ls -R ./bin
 
-      # Upload build artifacts
+      # Upload build and bin directories
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: VanillaFixes-Build
           path: |
-            ./build/src/dll
-            ./build/src/launcher
+            ./build
+            ./bin
